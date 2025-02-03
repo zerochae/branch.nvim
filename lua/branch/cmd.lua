@@ -9,6 +9,7 @@ M.git_cmd = {
   get_log = {
     "git",
     "log",
+    "--max-count=1000",
     "--color",
     "--graph",
     "--decorate",
