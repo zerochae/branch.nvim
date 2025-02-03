@@ -21,8 +21,9 @@ A Telescope picker to quickly git branch finder in project
   {
     "zerochae/branch.nvim",
     dependencies = { "nvim-telescope/telescope.nvim" },
+    cmd = "Branch",
     config = function()
-      require("branch").setup()
+      require("branch").setup {}
     end,
   }
 ```
