@@ -8,7 +8,6 @@ return function(state)
   return pickers
     .new({}, {
       prompt_title = state.prompt.title,
-      preview_title = state.preview.title,
       finder = branch_finder(state.finder),
       previewer = branch_previewer(state.preview),
       sorter = conf.generic_sorter(),

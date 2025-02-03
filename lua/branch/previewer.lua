@@ -2,6 +2,7 @@ local previewers = require "telescope.previewers"
 
 return function(preview_state)
   return previewers.new_termopen_previewer {
+    title = preview_state.title,
     get_command = function(entry)
       if not entry or not entry.value then
         return { "echo", "No branch selected" }

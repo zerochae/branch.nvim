@@ -5,7 +5,7 @@ return {
     title = " Git Branches",
   },
   preview = {
-    title = "  Preview",
+    title = " Git Log",
     cmd = cmd.git_cmd.get_log,
   },
   finder = {
