@@ -12,7 +12,7 @@ return function(opts)
     .new(opts, {
       prompt_title = opts.prompt_title,
       preview_title = opts.preview_title,
-      finder = branch_finder,
+      finder = branch_finder(opts.finder_icon),
       previewer = branch_previewer(opts.preview_cmd),
       sorter = conf.generic_sorter(),
       attach_mappings = branch_mappings,
