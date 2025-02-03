@@ -7,7 +7,7 @@ M.setup = function(opts)
   state = vim.tbl_deep_extend("force", {}, state, opts)
 
   vim.api.nvim_create_user_command("Branch", function()
-    require "branch.picker"()
+    require "branch.picker"(state)
   end, { desc = "get git branches" })
 end
 

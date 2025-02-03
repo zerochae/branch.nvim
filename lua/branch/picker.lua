@@ -6,12 +6,12 @@ local conf = require("telescope.config").values
 local state = require "branch.state"
 
 return function(opts)
-  opts = opts or {}
+  opts = opts or state
 
   return pickers
     .new(opts, {
-      prompt_title = state.prompt_title,
-      preview_title = state.preview_title,
+      prompt_title = opts.prompt_title,
+      preview_title = opts.preview_title,
       finder = branch_finder,
       previewer = branch_previewer,
       sorter = conf.generic_sorter(opts),
