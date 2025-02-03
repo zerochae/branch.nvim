@@ -16,13 +16,21 @@ local function get_git_branches()
   return results
 end
 
-return finders.new_table {
-  results = get_git_branches(),
-  entry_maker = function(entry)
-    return {
-      display = entry.display,
-      value = entry.value,
-      ordinal = entry.ordinal,
+return function(finder_icon)
+  if not finder_icon then
+    return finders.new_table {
+      results = cmd.run_list(cmd.git_cmd.get_branches),
     }
-  end,
-}
+  end
+
+  return finders.new_table {
+    results = get_git_branches(),
+    entry_maker = function(entry)
+      return {
+        display = entry.display,
+        value = entry.value,
+        ordinal = entry.ordinal,
+      }
+    end,
+  }
+end
