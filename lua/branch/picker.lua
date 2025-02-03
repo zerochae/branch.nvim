@@ -10,10 +10,10 @@ return function(opts)
 
   return pickers
     .new(opts, {
-      prompt_title = opts.prompt_title,
-      preview_title = opts.preview_title,
-      finder = branch_finder(opts.finder_icon),
-      previewer = branch_previewer(opts.preview_cmd),
+      prompt_title = opts.prompt.title,
+      preview_title = opts.preview.title,
+      finder = branch_finder(opts.finder),
+      previewer = branch_previewer(opts.preview),
       sorter = conf.generic_sorter(),
       attach_mappings = branch_mappings,
     })
