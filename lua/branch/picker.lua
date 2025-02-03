@@ -13,7 +13,7 @@ return function(opts)
       prompt_title = opts.prompt_title,
       preview_title = opts.preview_title,
       finder = branch_finder,
-      previewer = branch_previewer,
+      previewer = branch_previewer(opts.preview_cmd),
       sorter = conf.generic_sorter(opts),
       attach_mappings = branch_mappings,
     })
