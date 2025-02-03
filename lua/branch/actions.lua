@@ -3,74 +3,77 @@ local action_state = require "telescope.actions.state"
 
 local M = {}
 
-M.checkout_branch = function(prompt_bufnr)
+local git_cmd = {
+  checkout = "git checkout ",
+  delete = "git branch -d ",
+  create = "git checkout -b ",
+  current_branch = "git rev-parse --abbrev-ref HEAD",
+}
+
+local function close_picker(bufnr)
+  actions.close(bufnr)
+end
+
+local function get_selected_branch()
   local selection = action_state.get_selected_entry()
-  if not selection then
-    print "❌ No branch selected!"
+  return selection and selection.value or nil
+end
+
+local function run_git_cmd(cmd)
+  local result = vim.fn.system(cmd)
+  if vim.v.shell_error ~= 0 then
+    print(" Git command failed: " .. cmd)
+    print(result)
+    return nil
+  end
+  return result
+end
+
+M.checkout_branch = function(prompt_bufnr)
+  local branch = get_selected_branch()
+  if not branch then
+    print " No branch selected!"
     return
   end
 
-  local branch = selection.value
-  local cmd = "git checkout " .. branch
-  local result = vim.fn.system(cmd)
-
-  if vim.v.shell_error ~= 0 then
-    print("❌ Failed to checkout branch: " .. branch)
-    print(result)
-  else
-    print("✅ Switched to branch: " .. branch)
+  if run_git_cmd(git_cmd.checkout .. branch) then
+    print(" Switched to branch: " .. branch)
   end
 
-  actions.close(prompt_bufnr) -- Picker 닫기
+  close_picker(prompt_bufnr)
 end
 
 M.delete_branch = function(prompt_bufnr)
-  local selection = action_state.get_selected_entry()
-  if not selection then
-    print "❌ No branch selected!"
+  local branch = get_selected_branch()
+  if not branch then
+    print " No branch selected!"
     return
   end
 
-  local branch = selection.value
-
-  -- 현재 체크아웃된 브랜치는 삭제 못 하도록 방지
-  local current_branch = vim.fn.systemlist("git rev-parse --abbrev-ref HEAD")[1]
-  if branch == current_branch then
-    print("🚫 Cannot delete current branch: " .. branch)
+  local current_branch = run_git_cmd(git_cmd.current_branch)
+  if not current_branch or branch == current_branch:gsub("\n", "") then
+    print(" Cannot delete current branch: " .. branch)
     return
   end
 
-  local cmd = "git branch -d " .. branch
-  local result = vim.fn.system(cmd)
-
-  if vim.v.shell_error ~= 0 then
-    print("❌ Failed to delete branch: " .. branch)
-    print(result)
-  else
-    print("🗑️ Deleted branch: " .. branch)
+  if run_git_cmd(git_cmd.delete .. branch) then
+    print("󰆴 Deleted branch: " .. branch)
   end
 
-  actions.close(prompt_bufnr) -- Picker 닫기
+  close_picker(prompt_bufnr)
 end
 
 M.create_branch = function(prompt_bufnr)
-  actions.close(prompt_bufnr) -- Picker 닫기
+  close_picker(prompt_bufnr)
 
-  -- 사용자 입력 받기
   local new_branch = vim.fn.input "New branch name: "
   if new_branch == "" then
-    print "❌ No branch name provided!"
+    print " No branch name provided!"
     return
   end
 
-  local cmd = "git checkout -b " .. new_branch
-  local result = vim.fn.system(cmd)
-
-  if vim.v.shell_error ~= 0 then
-    print("❌ Failed to create branch: " .. new_branch)
-    print(result)
-  else
-    print("🌱 Created and switched to new branch: " .. new_branch)
+  if run_git_cmd(git_cmd.create .. new_branch) then
+    print(" Created and switched to new branch: " .. new_branch)
   end
 end
 
