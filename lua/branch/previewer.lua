@@ -8,9 +8,9 @@ return function(preview_cmd)
       end
 
       local branch = entry.value
-      local command = preview_cmd .. branch
+      table.insert(preview_cmd, branch)
 
-      return command
+      return preview_cmd
     end,
   }
 end

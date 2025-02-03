@@ -14,7 +14,7 @@ return function(opts)
       preview_title = opts.preview_title,
       finder = branch_finder,
       previewer = branch_previewer(opts.preview_cmd),
-      sorter = conf.generic_sorter(opts),
+      sorter = conf.generic_sorter(),
       attach_mappings = branch_mappings,
     })
     :find()
