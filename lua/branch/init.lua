@@ -1,10 +1,10 @@
 local M = {}
 
-local config = {}
+local state = require "branch.state"
 
 M.setup = function(opts)
   opts = opts or {}
-  config = vim.tbl_deep_extend("force", {}, config, opts)
+  state = vim.tbl_deep_extend("force", {}, state, opts)
 
   vim.api.nvim_create_user_command("Branch", function()
     require "branch.picker"()
