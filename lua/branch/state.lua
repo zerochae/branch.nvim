@@ -9,6 +9,7 @@ return {
     cmd = cmd.git_cmd.get_log,
   },
   finder = {
+    current_branch_icon = "* ",
     icon = " ",
   },
 }

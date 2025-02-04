@@ -50,6 +50,7 @@ A Telescope picker to quickly git branch finder in project
     },
   },
   finder = {
+    current_branch_icon = "* ",
     icon = " ",
   },
 }
